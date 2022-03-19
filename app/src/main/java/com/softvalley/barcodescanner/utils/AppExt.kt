@@ -15,8 +15,8 @@ fun Fragment.showToast(message:String)
     Toast.makeText(requireContext(),message,Toast.LENGTH_SHORT).show()
 }
 
-fun Fragment.checkPermission(boolean: (Boolean) -> Unit) {
-    val permissions = ContextCompat.checkSelfPermission(requireContext(),android.Manifest.permission.CAMERA)
+fun Fragment.checkPermission() {
+    val permissions = ContextCompat.checkSelfPermission(requireContext(),Manifest.permission.CAMERA)
     val dialogBinding= CustomAlertDialogBinding.inflate(layoutInflater)
     val alertDialog: AlertDialog =
         AlertDialog.Builder(requireContext()).setView(dialogBinding.root).setCancelable(false).create()
@@ -24,7 +24,8 @@ fun Fragment.checkPermission(boolean: (Boolean) -> Unit) {
 
     dialogBinding.btnYes.setOnClickListener {
         ActivityCompat.requestPermissions(requireActivity(),
-            arrayOf(android.Manifest.permission.CAMERA), 1)
+            arrayOf(Manifest.permission.CAMERA), 1)
+        alertDialog.dismiss()
     }
 
 
@@ -39,7 +40,7 @@ fun Fragment.checkPermission(boolean: (Boolean) -> Unit) {
 
         } else {
             ActivityCompat.requestPermissions(requireActivity(),
-                arrayOf(android.Manifest.permission.CAMERA), 1)
+                arrayOf(Manifest.permission.CAMERA), 1)
 
         }
     }
