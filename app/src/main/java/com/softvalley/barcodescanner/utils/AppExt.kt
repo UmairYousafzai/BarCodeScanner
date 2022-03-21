@@ -14,6 +14,14 @@ fun Fragment.showToast(message:String)
 {
     Toast.makeText(requireContext(),message,Toast.LENGTH_SHORT).show()
 }
+fun Fragment.showAlertDialog(msg: String) {
+    var newMessage = msg
+    if (newMessage.isEmpty()) {
+        newMessage = "Unable to process your request \nPlease try again later !!"
+    }
+//    AlertMessageDialog.newInstance(newMessage)
+//        .show(requireActivity().supportFragmentManager, AlertMessageDialog.TAG)
+}
 
 fun Fragment.checkPermission() {
     val permissions = ContextCompat.checkSelfPermission(requireContext(),Manifest.permission.CAMERA)

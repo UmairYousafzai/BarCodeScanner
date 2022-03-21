@@ -1,76 +1,48 @@
 package com.softvalley.barcodescanner.ui
 
-
 import android.util.Log
-import android.view.View
 import android.widget.Toast
-import com.budiyev.android.codescanner.AutoFocusMode
-import com.budiyev.android.codescanner.CodeScanner
-import com.budiyev.android.codescanner.DecodeCallback
-import com.budiyev.android.codescanner.ErrorCallback
-import com.budiyev.android.codescanner.ScanMode
+import com.budiyev.android.codescanner.*
 import com.softvalley.barcodescanner.R
 import com.softvalley.barcodescanner.databinding.FragmentCameraBinding
 import com.softvalley.barcodescanner.utils.checkPermission
 import com.softvalley.barcodescanner.utils.showToast
+import com.softvalley.barcodescanner.viewModel.CameraViewModel
 
-class CameraFragment() : BaseFragment(R.layout.fragment_camera) {
 
-    private lateinit var binding:FragmentCameraBinding
+class CameraFragment : BaseFragment<FragmentCameraBinding, CameraViewModel>(){
     lateinit var codeScanner: CodeScanner
+    private val TAG=CameraFragment::class.simpleName
 
-    override fun initViews(view: View) {
 
-        binding = FragmentCameraBinding.inflate(layoutInflater)
+
+    override fun initViews() {
+
 
         checkPermission()
         codeScanner()
+
+        btnListeners()
+        liveDataObservers()
+    }
+
+    private fun liveDataObservers() {
+
+
+        with(viewModel){
+            setupGeneralViewModel(this)
+            productLiveData.observe(viewLifecycleOwner) { product->
+                binding.product=product
+            }
+        }
+    }
+
+    private fun btnListeners() {
+
         binding.codeScanner.setOnClickListener {
             codeScanner.startPreview()
         }
-    }
 
-    private fun codeScannerCallBack() {
-
-        codeScanner.decodeCallback= DecodeCallback{
-            requireActivity().runOnUiThread{
-
-                Toast.makeText(requireContext(),it.text,Toast.LENGTH_SHORT).show()
-                Log.e(CameraFragment::class.simpleName,it.text)
-            }
-
-        }
-
-        codeScanner.errorCallback = ErrorCallback {
-            requireActivity().runOnUiThread {
-                Toast.makeText(requireContext(), "Camera initialization error: ${it.message}",
-                    Toast.LENGTH_LONG).show()
-            }
-        }
-    }
-
-    private fun codeScanner() {
-
-        codeScanner= CodeScanner(requireContext(),binding.codeScanner)
-
-        codeScanner.camera=CodeScanner.CAMERA_BACK
-        codeScanner.formats= CodeScanner.ALL_FORMATS
-        codeScanner.autoFocusMode= AutoFocusMode.CONTINUOUS
-        codeScanner.scanMode= ScanMode.CONTINUOUS
-        codeScanner.isAutoFocusEnabled=true
-        codeScanner.isFlashEnabled=true
-
-
-
-//        codeScanner.startPreview()
-        codeScannerCallBack()
-
-    }
-
-    override fun attachViewModel() {
-    }
-
-    override fun setDefaultUi() {
     }
 
     override fun onResume() {
@@ -82,12 +54,53 @@ class CameraFragment() : BaseFragment(R.layout.fragment_camera) {
         codeScanner.releaseResources()
         super.onPause()
 
+    }
+
+
+    private fun codeScannerCallBack() {
+
+        codeScanner.decodeCallback= DecodeCallback{
+            requireActivity().runOnUiThread{
+
+                viewModel.getProduct(it.text)
+                showToast(it.text)
+                Log.e(TAG,it.text)
+            }
+
+        }
+
+        codeScanner.errorCallback = ErrorCallback {
+            requireActivity().runOnUiThread {
+                it.message?.let { it1 -> showToast(it1) }
+            }
+        }
+    }
+
+    private fun codeScanner() {
+
+        codeScanner= CodeScanner(requireContext(),binding.codeScanner)
+
+        codeScanner.camera=CodeScanner.CAMERA_BACK
+        codeScanner.formats= CodeScanner.ALL_FORMATS
+        codeScanner.autoFocusMode= AutoFocusMode.CONTINUOUS
+        codeScanner.scanMode= ScanMode.SINGLE
+        codeScanner.isAutoFocusEnabled=true
+        codeScanner.isFlashEnabled=false
+
+
+
+        codeScanner.startPreview()
+        codeScannerCallBack()
 
     }
 
 
 
+    override fun getViewModelClass()= CameraViewModel::class.java
 
+    override fun getFragmentView()= R.layout.fragment_camera
+    override fun setDefaultUi() {
+    }
 
 
 }
