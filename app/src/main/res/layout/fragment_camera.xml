@@ -20,29 +20,35 @@
         <com.budiyev.android.codescanner.CodeScannerView
             android:id="@+id/code_scanner"
             android:layout_width="match_parent"
-            android:layout_height="400dp"
+            android:layout_height="wrap_content"
             app:autoFocusButtonColor="@color/white"
             app:autoFocusButtonVisible="true"
             app:flashButtonColor="@color/white"
             app:flashButtonVisible="true"
+            app:frameAspectRatioHeight="1"
+            app:frameAspectRatioWidth="1.6"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/tv_uan_heading"
+            app:layout_constraintHeight_max="300dp"
+            app:layout_constraintHeight_min="150dp"
             />
 
         <TextView
             android:id="@+id/tv_uan_heading"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:text="@string/uan"
             android:textColor="@color/app_theme_color_primary"
-            android:textSize="30sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/tv_name_heading"
-            app:layout_constraintEnd_toStartOf="@id/tv_uan"
+            android:lines="2"
+            app:autoSizeTextType="uniform"
+            app:autoSizeMinTextSize="20sp"
+            app:autoSizeMaxTextSize="100sp"
+            app:autoSizeStepGranularity="1sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/code_scanner" />
 
@@ -50,73 +56,87 @@
             android:id="@+id/tv_uan"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
             android:text="@{product.uan,default=282328328}"
+            android:lines="2"
             android:textColor="@color/white"
-            android:textSize="30sp"
-            app:layout_constraintBottom_toBottomOf="@id/tv_uan_heading"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/tv_uan_heading"
-            app:layout_constraintTop_toTopOf="@+id/tv_uan_heading" />
+            app:autoSizeTextType="uniform"
+            app:autoSizeMinTextSize="20sp"
+            app:autoSizeMaxTextSize="100sp"
+            app:autoSizeStepGranularity="1sp"
+            app:layout_constraintEnd_toEndOf="@id/tv_uan_heading"
+            app:layout_constraintStart_toStartOf="@id/tv_uan_heading"
+            app:layout_constraintTop_toBottomOf="@+id/tv_uan_heading" />
 
 
         <TextView
             android:id="@+id/tv_name_heading"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:text="@string/name"
             android:textColor="@color/app_theme_color_primary"
-            android:textSize="30sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@id/tv_name"
+            android:lines="2"
+            app:autoSizeTextType="uniform"
+            app:autoSizeMinTextSize="20sp"
+            app:autoSizeMaxTextSize="100sp"
+            app:autoSizeStepGranularity="1sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/tv_price_heading"
-            app:layout_constraintTop_toBottomOf="@id/tv_uan_heading" />
+            app:layout_constraintTop_toBottomOf="@id/tv_uan" />
 
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
             android:text="@{product.description,default=productName}"
             android:textColor="@color/white"
-            android:textSize="30sp"
-            app:layout_constraintBottom_toBottomOf="@id/tv_name_heading"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/tv_name_heading"
-            app:layout_constraintTop_toTopOf="@+id/tv_name_heading" />
+            app:autoSizeTextType="uniform"
+            app:autoSizeMinTextSize="20sp"
+            app:autoSizeMaxTextSize="100sp"
+            android:lines="2"
+            app:autoSizeStepGranularity="1sp"
+            app:layout_constraintEnd_toEndOf="@id/tv_name_heading"
+            app:layout_constraintStart_toStartOf="@id/tv_name_heading"
+            app:layout_constraintTop_toBottomOf="@+id/tv_name_heading" />
 
 
         <TextView
             android:id="@+id/tv_price_heading"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginVertical="20dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:text="@string/price"
             android:textColor="@color/app_theme_color_primary"
-            android:textSize="30sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@id/tv_price"
+            app:autoSizeTextType="uniform"
+            app:autoSizeMinTextSize="20sp"
+            app:autoSizeMaxTextSize="100sp"
+            app:autoSizeStepGranularity="1sp"
+            android:lines="2"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_name_heading"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginVertical="20dp"/>
+            app:layout_constraintTop_toBottomOf="@id/tv_name"
+           />
 
         <TextView
             android:id="@+id/tv_price"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="@{String.valueOf(product.unitRetail),default=productPrice}"
+            android:text="@{@string/rs+String.valueOf(product.unitRetail),default=productPrice}"
             android:textColor="@color/white"
-            android:textSize="30sp"
-            app:layout_constraintBottom_toBottomOf="@id/tv_price_heading"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/tv_price_heading"
-            app:layout_constraintTop_toTopOf="@+id/tv_price_heading" />
+            app:autoSizeTextType="uniform"
+            app:autoSizeMinTextSize="20sp"
+            app:autoSizeMaxTextSize="100sp"
+            app:autoSizeStepGranularity="1sp"
+            android:lines="2"
+
+            app:layout_constraintEnd_toEndOf="@id/tv_price_heading"
+            app:layout_constraintStart_toStartOf="@id/tv_price_heading"
+            app:layout_constraintTop_toBottomOf="@+id/tv_price_heading" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

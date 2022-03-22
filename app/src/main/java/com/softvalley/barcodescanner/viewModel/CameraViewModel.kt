@@ -21,7 +21,14 @@ class CameraViewModel : BaseViewModel() {
                 when (response) {
                     is ResultWrapper.Success ->
                         if (response.value.Code == 200) {
-                            productLiveData.value = response.value.Data
+                            if (response.value.Data?.Description?.isNotEmpty() == true)
+                            {
+                                productLiveData.value = response.value.Data
+                            }
+                            else{
+                                showDialogMessage("Product Not Found")
+
+                            }
                         }
                     else -> handleErrorType(response)
                 }

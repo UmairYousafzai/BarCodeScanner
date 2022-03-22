@@ -4,8 +4,8 @@ import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 data class ApiErrorResponse(
-    @SerializedName("code")
+    @SerializedName("Code")
     val code: Int = 0,
-    @SerializedName("message")
+    @SerializedName("Message")
     val message: String = ""
 ) : Serializable

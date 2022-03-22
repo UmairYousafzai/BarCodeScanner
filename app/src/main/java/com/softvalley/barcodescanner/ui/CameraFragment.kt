@@ -83,7 +83,7 @@ class CameraFragment : BaseFragment<FragmentCameraBinding, CameraViewModel>(){
         codeScanner.camera=CodeScanner.CAMERA_BACK
         codeScanner.formats= CodeScanner.ALL_FORMATS
         codeScanner.autoFocusMode= AutoFocusMode.CONTINUOUS
-        codeScanner.scanMode= ScanMode.SINGLE
+        codeScanner.scanMode= ScanMode.CONTINUOUS
         codeScanner.isAutoFocusEnabled=true
         codeScanner.isFlashEnabled=false
 
