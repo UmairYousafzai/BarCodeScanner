@@ -63,7 +63,6 @@ class CameraFragment : BaseFragment<FragmentCameraBinding, CameraViewModel>(){
             requireActivity().runOnUiThread{
 
                 viewModel.getProduct(it.text)
-                showToast(it.text)
                 Log.e(TAG,it.text)
             }
 
