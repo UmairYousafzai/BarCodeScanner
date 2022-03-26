@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidProjects/BarCodeScanner/app/src/main/res/layout/fragment_camera.xml" value="0.1469265367316342" />
         <entry key="..\:/Umair Data/Android projects repository/BarCodeScanner/app/src/main/res/layout/activity_main.xml" value="0.17074275362318841" />
         <entry key="..\:/Umair Data/Android projects repository/BarCodeScanner/app/src/main/res/layout/custom_alert_dialog.xml" value="0.17074275362318841" />
         <entry key="..\:/Umair Data/Android projects repository/BarCodeScanner/app/src/main/res/layout/fragment_camera.xml" value="0.39351851851851855" />

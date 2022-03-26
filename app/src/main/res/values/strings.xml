@@ -5,5 +5,5 @@
     <string name="uan">UAN:</string>
     <string name="name">Name:</string>
     <string name="price">Price:</string>
-    <string name="rs">Rs</string>
+    <string name="rs">Rs </string>
 </resources>

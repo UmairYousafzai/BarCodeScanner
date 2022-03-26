@@ -60,12 +60,9 @@ abstract class BaseFragment <T: ViewBinding,VM:ViewModel>:Fragment() {
 
     }
 
-    protected fun setupGeneralViewModel(generalViewModel: BaseViewModel) {
+    protected open fun setupGeneralViewModel(generalViewModel: BaseViewModel) {
         with(generalViewModel) {
-            dialogMessage.observe(viewLifecycleOwner) {
-//               showAlertDialog(it)
-                showToast(it)
-            }
+
 
             progressBar.observe(viewLifecycleOwner) {
                     showProgressDialog(it)

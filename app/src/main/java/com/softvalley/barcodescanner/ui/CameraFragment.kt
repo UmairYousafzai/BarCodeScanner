@@ -1,30 +1,30 @@
 package com.softvalley.barcodescanner.ui
 
 import android.util.Log
-import android.widget.Toast
 import com.budiyev.android.codescanner.*
 import com.softvalley.barcodescanner.R
 import com.softvalley.barcodescanner.databinding.FragmentCameraBinding
-import com.softvalley.barcodescanner.utils.checkPermission
+import com.softvalley.barcodescanner.utils.checkCameraPermission
+import com.softvalley.barcodescanner.utils.requestPermission
 import com.softvalley.barcodescanner.utils.showToast
+import com.softvalley.barcodescanner.viewModel.BaseViewModel
 import com.softvalley.barcodescanner.viewModel.CameraViewModel
 
 
 class CameraFragment : BaseFragment<FragmentCameraBinding, CameraViewModel>(){
-    lateinit var codeScanner: CodeScanner
+    private var codeScanner: CodeScanner?= null
     private val TAG=CameraFragment::class.simpleName
 
 
 
+
+
     override fun initViews() {
-
-
-        checkPermission()
         codeScanner()
 
-        btnListeners()
-        liveDataObservers()
     }
+
+
 
     private fun liveDataObservers() {
 
@@ -33,6 +33,12 @@ class CameraFragment : BaseFragment<FragmentCameraBinding, CameraViewModel>(){
             setupGeneralViewModel(this)
             productLiveData.observe(viewLifecycleOwner) { product->
                 binding.product=product
+                codeScanner?.startPreview()
+            }
+
+            dialogMessage.observe(viewLifecycleOwner) {
+                showToast(it)
+                codeScanner?.startPreview()
             }
         }
     }
@@ -40,18 +46,30 @@ class CameraFragment : BaseFragment<FragmentCameraBinding, CameraViewModel>(){
     private fun btnListeners() {
 
         binding.codeScanner.setOnClickListener {
-            codeScanner.startPreview()
+            codeScanner?.startPreview()
         }
 
     }
 
     override fun onResume() {
         super.onResume()
-        codeScanner.startPreview()
+
+        if (checkCameraPermission())
+        {
+
+            codeScanner?.startPreview()
+            btnListeners()
+            liveDataObservers()
+        }
+        else
+        {
+            requestPermission()
+
+        }
     }
 
     override fun onPause() {
-        codeScanner.releaseResources()
+        codeScanner?.releaseResources()
         super.onPause()
 
     }
@@ -59,36 +77,45 @@ class CameraFragment : BaseFragment<FragmentCameraBinding, CameraViewModel>(){
 
     private fun codeScannerCallBack() {
 
-        codeScanner.decodeCallback= DecodeCallback{
-            requireActivity().runOnUiThread{
+       with(codeScanner){
+           this?.decodeCallback = DecodeCallback{
+               requireActivity().runOnUiThread{
 
-                viewModel.getProduct(it.text)
-                Log.e(TAG,it.text)
-            }
+                   viewModel.getProduct(it.text)
+                   Log.e(TAG,it.text)
+               }
 
+       }
+
+           this?.errorCallback = ErrorCallback {
+               requireActivity().runOnUiThread {
+                   it.message?.let { it1 ->
+                       showToast(it1)
+                       Log.e(TAG,it.message.toString())
+
+                   }
+               }
+           }
         }
 
-        codeScanner.errorCallback = ErrorCallback {
-            requireActivity().runOnUiThread {
-                it.message?.let { it1 -> showToast(it1) }
-            }
-        }
     }
 
     private fun codeScanner() {
 
         codeScanner= CodeScanner(requireContext(),binding.codeScanner)
 
-        codeScanner.camera=CodeScanner.CAMERA_BACK
-        codeScanner.formats= CodeScanner.ALL_FORMATS
-        codeScanner.autoFocusMode= AutoFocusMode.CONTINUOUS
-        codeScanner.scanMode= ScanMode.CONTINUOUS
-        codeScanner.isAutoFocusEnabled=true
-        codeScanner.isFlashEnabled=false
+        codeScanner?.apply {
+            camera=CodeScanner.CAMERA_BACK
+            formats= CodeScanner.ALL_FORMATS
+            autoFocusMode= AutoFocusMode.CONTINUOUS
+            scanMode= ScanMode.SINGLE
+            isAutoFocusEnabled=true
+            isFlashEnabled=false
+        }
 
 
 
-        codeScanner.startPreview()
+
         codeScannerCallBack()
 
     }
@@ -100,6 +127,8 @@ class CameraFragment : BaseFragment<FragmentCameraBinding, CameraViewModel>(){
     override fun getFragmentView()= R.layout.fragment_camera
     override fun setDefaultUi() {
     }
+
+
 
 
 }

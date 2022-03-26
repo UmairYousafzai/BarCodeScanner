@@ -23,7 +23,13 @@ fun Fragment.showAlertDialog(msg: String) {
 //        .show(requireActivity().supportFragmentManager, AlertMessageDialog.TAG)
 }
 
-fun Fragment.checkPermission() {
+fun Fragment.checkCameraPermission(): Boolean
+{
+    return ContextCompat.checkSelfPermission(requireContext(),Manifest.permission.CAMERA)==
+            PackageManager.PERMISSION_GRANTED
+}
+
+fun Fragment.requestPermission() {
     val permissions = ContextCompat.checkSelfPermission(requireContext(),Manifest.permission.CAMERA)
     val dialogBinding= CustomAlertDialogBinding.inflate(layoutInflater)
     val alertDialog: AlertDialog =
@@ -33,6 +39,9 @@ fun Fragment.checkPermission() {
     dialogBinding.btnYes.setOnClickListener {
         ActivityCompat.requestPermissions(requireActivity(),
             arrayOf(Manifest.permission.CAMERA), 1)
+        alertDialog.dismiss()
+    }
+    dialogBinding.btnClose.setOnClickListener {
         alertDialog.dismiss()
     }
 
@@ -52,10 +61,7 @@ fun Fragment.checkPermission() {
 
         }
     }
-    else
-    {
-        showToast("Camera Permission needed for the app use")
-    }
+
 
 
 }
