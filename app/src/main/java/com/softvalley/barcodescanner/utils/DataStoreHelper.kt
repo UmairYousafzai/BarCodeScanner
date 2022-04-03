@@ -27,6 +27,8 @@ class DataStoreHelper(
     suspend fun clear(){
         dataStore.edit {
             it.clear()
+
+
         }
     }
 
