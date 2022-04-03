@@ -6,4 +6,11 @@
     <string name="name">Name:</string>
     <string name="price">Price:</string>
     <string name="rs">Rs</string>
+    <string name="camera_permission">Camera Permission Needed</string>
+    <string name="permission_dialog_description">\"This Permission Needed For The Better Experience Of The App. \"</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="sign_in">Sign In</string>
+    <string name="user_name">User Name</string>
+    <string name="logout">Logout</string>
 </resources>

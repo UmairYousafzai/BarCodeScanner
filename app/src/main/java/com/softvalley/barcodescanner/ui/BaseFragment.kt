@@ -10,17 +10,20 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavDirections
+import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
+import com.softvalley.barcodescanner.utils.DataStoreHelper
 import com.softvalley.barcodescanner.utils.DialogUtils
 import com.softvalley.barcodescanner.utils.showAlertDialog
 import com.softvalley.barcodescanner.utils.showToast
 import com.softvalley.barcodescanner.viewModel.BaseViewModel
 
-abstract class BaseFragment <T: ViewBinding,VM:ViewModel>:Fragment() {
+abstract class BaseFragment <T: ViewBinding>:Fragment() {
 
     protected lateinit var binding:T
-    protected lateinit var viewModel:VM
     lateinit var dialog: AlertDialog
+    protected lateinit var dataStore:DataStoreHelper
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,17 +33,16 @@ abstract class BaseFragment <T: ViewBinding,VM:ViewModel>:Fragment() {
 
         dialog = DialogUtils.getProgressDialog(requireContext())
 
-        binding =DataBindingUtil.inflate(inflater,getFragmentView(),container,false)
-        attachViewModel()
+        binding =getFragmentBinding(layoutInflater,container)
        return binding.root
     }
 
 
     abstract fun initViews()
 
-    abstract fun getViewModelClass(): Class<VM>
+    abstract fun liveDataObserver()
 
-    abstract fun getFragmentView(): Int
+    abstract fun getFragmentBinding(layoutInflater: LayoutInflater,container: ViewGroup?): T
 
 
 
@@ -48,17 +50,13 @@ abstract class BaseFragment <T: ViewBinding,VM:ViewModel>:Fragment() {
     abstract fun setDefaultUi()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        dataStore=DataStoreHelper(requireContext())
         initViews()
-        attachViewModel()
+        liveDataObserver()
         setDefaultUi()
     }
 
-    private fun attachViewModel()
-    {
-        viewModel = ViewModelProvider(this).get(getViewModelClass())
 
-    }
 
     protected fun setupGeneralViewModel(generalViewModel: BaseViewModel) {
         with(generalViewModel) {
@@ -66,7 +64,9 @@ abstract class BaseFragment <T: ViewBinding,VM:ViewModel>:Fragment() {
 //               showAlertDialog(it)
                 showToast(it)
             }
-
+            toastMessage.observe(viewLifecycleOwner){
+                showToast(it)
+            }
             progressBar.observe(viewLifecycleOwner) {
                     showProgressDialog(it)
 
@@ -84,5 +84,11 @@ abstract class BaseFragment <T: ViewBinding,VM:ViewModel>:Fragment() {
             if (dialog.isShowing)
                 dialog.dismiss()
         }
+    }
+
+    protected fun moveToNextScreen(navDirections: NavDirections)
+    {
+        val navController=findNavController()
+        navController.navigate(navDirections)
     }
 }

@@ -1,33 +1,36 @@
 package com.softvalley.barcodescanner.ui
 
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.viewModels
 import com.budiyev.android.codescanner.*
 import com.softvalley.barcodescanner.R
 import com.softvalley.barcodescanner.databinding.FragmentCameraBinding
 import com.softvalley.barcodescanner.utils.checkPermission
 import com.softvalley.barcodescanner.utils.showToast
+import com.softvalley.barcodescanner.utils.showToolbar
 import com.softvalley.barcodescanner.viewModel.CameraViewModel
 
 
-class CameraFragment : BaseFragment<FragmentCameraBinding, CameraViewModel>(){
+class CameraFragment : BaseFragment<FragmentCameraBinding>(){
     lateinit var codeScanner: CodeScanner
     private val TAG=CameraFragment::class.simpleName
+    private val viewModel:CameraViewModel by viewModels()
 
 
 
     override fun initViews() {
 
-
+        showToolbar()
         checkPermission()
         codeScanner()
-
         btnListeners()
-        liveDataObservers()
     }
 
-    private fun liveDataObservers() {
 
+    override fun liveDataObserver() {
 
         with(viewModel){
             setupGeneralViewModel(this)
@@ -35,8 +38,8 @@ class CameraFragment : BaseFragment<FragmentCameraBinding, CameraViewModel>(){
                 binding.product=product
             }
         }
-    }
 
+    }
     private fun btnListeners() {
 
         binding.codeScanner.setOnClickListener {
@@ -95,11 +98,15 @@ class CameraFragment : BaseFragment<FragmentCameraBinding, CameraViewModel>(){
 
 
 
-    override fun getViewModelClass()= CameraViewModel::class.java
 
-    override fun getFragmentView()= R.layout.fragment_camera
     override fun setDefaultUi() {
     }
+
+    override fun getFragmentBinding(
+        layoutInflater: LayoutInflater,
+        container: ViewGroup?): FragmentCameraBinding = FragmentCameraBinding.inflate(layoutInflater,container,false)
+
+
 
 
 }

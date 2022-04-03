@@ -9,10 +9,15 @@ open class BaseViewModel :ViewModel(){
 
      val dialogMessage = MutableLiveData<String>()
     val progressBar = MutableLiveData<Boolean>()
+    val toastMessage=MutableLiveData<String>()
     val repository= DataRepository()
 
     protected fun showDialogMessage(message: String) {
         dialogMessage.value = message
+    }
+
+    protected fun showToastMessage(message: String) {
+        toastMessage.value = message
     }
 
 
