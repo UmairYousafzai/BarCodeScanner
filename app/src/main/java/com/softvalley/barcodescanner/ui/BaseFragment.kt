@@ -23,7 +23,6 @@ abstract class BaseFragment <T: ViewBinding>:Fragment() {
 
     protected lateinit var binding:T
     lateinit var dialog: AlertDialog
-    protected lateinit var dataStore:DataStoreHelper
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,7 +49,6 @@ abstract class BaseFragment <T: ViewBinding>:Fragment() {
     abstract fun setDefaultUi()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        dataStore=DataStoreHelper(requireContext())
         initViews()
         liveDataObserver()
         setDefaultUi()

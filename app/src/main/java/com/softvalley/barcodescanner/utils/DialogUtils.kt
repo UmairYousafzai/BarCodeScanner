@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
 import com.softvalley.barcodescanner.R
 
+
 class DialogUtils {
     companion object {
         fun getProgressDialog(context: Context): AlertDialog {
@@ -21,5 +22,8 @@ class DialogUtils {
             alertDialog.setCancelable(false)
             return alertDialog
         }
+
+
+
     }
 }

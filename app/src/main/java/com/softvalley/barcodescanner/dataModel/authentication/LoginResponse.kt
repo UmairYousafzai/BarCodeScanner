@@ -1,7 +1,5 @@
-package com.example.khataapp.models;
+package com.softvalley.barcodescanner.dataModel.authentication;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 import com.softvalley.barcodescanner.dataModel.general.BaseResponse
 import com.softvalley.barcodescanner.dataModel.general.User
 import java.io.Serializable

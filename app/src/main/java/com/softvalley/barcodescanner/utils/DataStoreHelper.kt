@@ -13,16 +13,19 @@ class DataStoreHelper(
 
     private val dataStore:DataStore<Preferences> = applicationContext.createDataStore(name = DATA_STORE_NAME)
 
-    val timeStamp:Flow<String> = dataStore.data.map { preferences->
-        preferences[LOGIN_TIME_STAMP]?:""
+
+    val isLogin:Flow<Boolean> = dataStore.data.map { preferences->
+        preferences[IS_LOGIN]?:false
     }
 
 
-    suspend fun saveLoginTimeStamp(timeStamp:String){
+    suspend fun setIsLogin(flag:Boolean){
         dataStore.edit { preferences->
-            preferences[LOGIN_TIME_STAMP]=timeStamp
+            preferences[IS_LOGIN]=flag
         }
     }
+
+
 
     suspend fun clear(){
         dataStore.edit {
@@ -34,7 +37,7 @@ class DataStoreHelper(
 
     companion object {
         const val DATA_STORE_NAME="barcode_scanner_datastore"
-        val LOGIN_TIME_STAMP= preferencesKey<String>(name = "Login_Time_Stamp")
+        val IS_LOGIN= preferencesKey<Boolean>(name = "is login")
     }
 
 }

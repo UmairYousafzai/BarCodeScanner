@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputEditText
 import com.softvalley.barcodescanner.R
 import com.softvalley.barcodescanner.databinding.CustomAlertDialogBinding
-import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -93,6 +92,8 @@ fun Fragment.showAlertDialog(msg: String) {
     if (newMessage.isEmpty()) {
         newMessage = "Unable to process your request \nPlease try again later !!"
     }
+
+    showToast(newMessage)
 //    AlertMessageDialog.newInstance(newMessage)
 //        .show(requireActivity().supportFragmentManager, AlertMessageDialog.TAG)
 }
@@ -126,4 +127,7 @@ fun Fragment.checkPermission() {
     }
 
 }
+
+
+
 

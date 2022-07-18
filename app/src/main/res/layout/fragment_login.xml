@@ -19,7 +19,9 @@
             android:layout_height="wrap_content"
             tools:context=".view.authentication.LoginFragment"
             android:padding="25dp"
-            android:background="@color/app_theme_color_secondary">
+           >
+
+
 
             <ImageView
                 android:id="@+id/logo"
@@ -84,6 +86,7 @@
                             android:id="@+id/et_username"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:inputType="textPersonName"
                             android:text="@={viewModel.userNameMutableLiveData}" />
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -112,6 +115,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@={viewModel.passwordMutableLiveData}"
+                            android:inputType="textPassword"
 
                             />
 

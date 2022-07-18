@@ -1,6 +1,6 @@
 package com.softvalley.barcodescanner.network
 
-import com.example.khataapp.models.LoginResponse
+import com.softvalley.barcodescanner.dataModel.authentication.LoginResponse
 import com.softvalley.barcodescanner.dataModel.ProductResponse
 import com.softvalley.barcodescanner.utils.CONSTANTS.Companion.API_ACCOUNT_LOGIN
 import com.softvalley.barcodescanner.utils.CONSTANTS.Companion.API_PRODUCTS_PRODUCT_BY_UAN
@@ -15,7 +15,7 @@ interface Api {
     suspend fun login(
         @Query("username") username: String,
         @Query("password") password: String
-    ):LoginResponse
+    ): LoginResponse
 
     /****************************   Product **********************/
 

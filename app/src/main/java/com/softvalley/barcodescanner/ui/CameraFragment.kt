@@ -5,28 +5,31 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.budiyev.android.codescanner.*
 import com.softvalley.barcodescanner.R
 import com.softvalley.barcodescanner.databinding.FragmentCameraBinding
-import com.softvalley.barcodescanner.utils.checkPermission
-import com.softvalley.barcodescanner.utils.showToast
-import com.softvalley.barcodescanner.utils.showToolbar
+import com.softvalley.barcodescanner.utils.*
 import com.softvalley.barcodescanner.viewModel.CameraViewModel
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 
 class CameraFragment : BaseFragment<FragmentCameraBinding>(){
     lateinit var codeScanner: CodeScanner
     private val TAG=CameraFragment::class.simpleName
     private val viewModel:CameraViewModel by viewModels()
-
+    private lateinit var dataStore: DataStoreHelper
+    private var networkID: String = ""
 
 
     override fun initViews() {
-
+        dataStore = DataStoreHelper(requireContext())
         showToolbar()
         checkPermission()
         codeScanner()
         btnListeners()
+
     }
 
 
@@ -65,8 +68,9 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>(){
         codeScanner.decodeCallback= DecodeCallback{
             requireActivity().runOnUiThread{
 
-                viewModel.getProduct(it.text)
-                Log.e(TAG,it.text)
+                            viewModel.getProduct(it.text)
+                    Log.e(TAG,it.text)
+
             }
 
         }
@@ -105,8 +109,5 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>(){
     override fun getFragmentBinding(
         layoutInflater: LayoutInflater,
         container: ViewGroup?): FragmentCameraBinding = FragmentCameraBinding.inflate(layoutInflater,container,false)
-
-
-
 
 }
