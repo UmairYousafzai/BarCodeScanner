@@ -17,6 +17,7 @@ suspend fun <T> safeApiCall(
         try {
             ResultWrapper.Success(apiCall.invoke())
         } catch (throwable: Throwable) {
+            throwable.printStackTrace()
             when (throwable) {
                 is ConnectException -> ResultWrapper.ConnectNetworkError
                 is IOException -> ResultWrapper.NetworkError

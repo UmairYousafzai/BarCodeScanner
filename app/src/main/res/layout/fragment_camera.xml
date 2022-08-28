@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="product"
             type="com.softvalley.barcodescanner.dataModel.Product" />
@@ -31,6 +30,7 @@
                 app:layout_constraintHeight_max="250dp"
                 app:layout_constraintHeight_min="150dp"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/tv_uan_heading"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
@@ -39,14 +39,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
-                android:lines="2"
                 android:text="@string/uan"
+                android:textSize="22sp"
                 android:textColor="@color/app_theme_color_primary"
                 android:textStyle="bold"
-                app:autoSizeMaxTextSize="100sp"
-                app:autoSizeMinTextSize="15sp"
-                app:autoSizeStepGranularity="1sp"
-                app:autoSizeTextType="uniform"
+
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/code_scanner"
@@ -58,13 +55,10 @@
                 android:id="@+id/tv_uan"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:lines="2"
                 android:text="@{product.uan,default=282328328}"
                 android:textColor="@color/white"
-                app:autoSizeMaxTextSize="100sp"
-                app:autoSizeMinTextSize="15sp"
-                app:autoSizeStepGranularity="1sp"
-                app:autoSizeTextType="uniform"
+                android:textSize="22sp"
+
                 android:layout_marginHorizontal="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -89,14 +83,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
-                android:lines="2"
                 android:text="@string/name"
                 android:textColor="@color/app_theme_color_primary"
                 android:textStyle="bold"
-                app:autoSizeMaxTextSize="100sp"
-                app:autoSizeMinTextSize="15sp"
-                app:autoSizeStepGranularity="1sp"
-                app:autoSizeTextType="uniform"
+                android:textSize="22sp"
+
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/view1"
@@ -106,13 +97,10 @@
                 android:id="@+id/tv_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:lines="2"
                 android:text="@{product.description,default=productName}"
                 android:textColor="@color/white"
-                app:autoSizeMaxTextSize="100sp"
-                app:autoSizeMinTextSize="15sp"
-                app:autoSizeStepGranularity="1sp"
-                app:autoSizeTextType="uniform"
+                android:textSize="22sp"
+
                 app:layout_constraintEnd_toEndOf="@id/tv_name_heading"
                 app:layout_constraintStart_toStartOf="@id/tv_name_heading"
                 app:layout_constraintTop_toBottomOf="@+id/tv_name_heading"
@@ -136,14 +124,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
-                android:lines="2"
                 android:text="@string/price"
                 android:textColor="@color/app_theme_color_primary"
                 android:textStyle="bold"
-                app:autoSizeMaxTextSize="100sp"
-                app:autoSizeMinTextSize="20sp"
-                app:autoSizeStepGranularity="1sp"
-                app:autoSizeTextType="uniform"
+                android:textSize="22sp"
+
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/view2"
@@ -153,13 +138,10 @@
                 android:id="@+id/tv_price"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:lines="3"
-                android:text="@{@string/rs+String.valueOf(product.unitRetail),default=productPrice}"
+                android:text="@{@string/rs+' '+String.valueOf(product.unitRetail),default=productPrice}"
                 android:textColor="@android:color/holo_red_dark"
-                app:autoSizeMaxTextSize="100sp"
-                app:autoSizeMinTextSize="20sp"
-                app:autoSizeStepGranularity="1sp"
-                app:autoSizeTextType="uniform"
+                android:textSize="40sp"
+
                 android:textStyle="bold"
                 android:layout_marginVertical="10dp"
                 app:layout_constraintEnd_toEndOf="@id/tv_price_heading"

@@ -1,5 +1,6 @@
 package com.softvalley.barcodescanner.ui
 
+import android.media.MediaPlayer
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -20,7 +21,6 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>(){
     private val TAG=CameraFragment::class.simpleName
     private val viewModel:CameraViewModel by viewModels()
     private lateinit var dataStore: DataStoreHelper
-    private var networkID: String = ""
 
 
     override fun initViews() {
@@ -33,12 +33,26 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>(){
     }
 
 
+
     override fun liveDataObserver() {
 
         with(viewModel){
             setupGeneralViewModel(this)
             productLiveData.observe(viewLifecycleOwner) { product->
                 binding.product=product
+                val mp= MediaPlayer.create(requireContext(),R.raw.success_sound_effect)
+                mp.start()
+                mp.setOnCompletionListener {
+                    mp.release()
+                }
+
+            }
+            errorLiveData.observe(viewLifecycleOwner){
+                val mp= MediaPlayer.create(requireContext(),R.raw.not_found_female)
+                mp.start()
+                mp.setOnCompletionListener {
+                    mp.release()
+                }
             }
         }
 
@@ -54,6 +68,7 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>(){
     override fun onResume() {
         super.onResume()
         codeScanner.startPreview()
+
     }
 
     override fun onPause() {
@@ -89,7 +104,7 @@ class CameraFragment : BaseFragment<FragmentCameraBinding>(){
         codeScanner.camera=CodeScanner.CAMERA_BACK
         codeScanner.formats= CodeScanner.ALL_FORMATS
         codeScanner.autoFocusMode= AutoFocusMode.CONTINUOUS
-        codeScanner.scanMode= ScanMode.CONTINUOUS
+        codeScanner.scanMode= ScanMode.SINGLE
         codeScanner.isAutoFocusEnabled=true
         codeScanner.isFlashEnabled=false
 

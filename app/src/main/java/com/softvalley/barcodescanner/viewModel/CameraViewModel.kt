@@ -11,6 +11,7 @@ import kotlinx.coroutines.launch
 class CameraViewModel : BaseViewModel() {
 
     val productLiveData: MutableLiveData<Product> = MutableLiveData()
+    val errorLiveData: MutableLiveData<Boolean> = MutableLiveData()
 
 
     fun getProduct(uan: String) {
@@ -21,16 +22,20 @@ class CameraViewModel : BaseViewModel() {
                 when (response) {
                     is ResultWrapper.Success ->
                         if (response.value.Code == 200) {
-                            if (response.value.Data?.Description?.isNotEmpty() == true)
-                            {
+                            if (response.value.Data?.Description?.isNotEmpty() == true) {
                                 productLiveData.value = response.value.Data
-                            }
-                            else{
+                            } else {
                                 showDialogMessage("Product Not Found")
-
+                                errorLiveData.value = true
                             }
+                        } else {
+                            errorLiveData.value = true
+
                         }
-                    else -> handleErrorType(response)
+                    else -> {
+                        errorLiveData.value = true
+                        handleErrorType(response)
+                    }
                 }
             }
         }

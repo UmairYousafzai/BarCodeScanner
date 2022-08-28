@@ -18,7 +18,16 @@ class DataStoreHelper(
         preferences[IS_LOGIN]?:false
     }
 
+    val iP:Flow<String> = dataStore.data.map { preferences->
+        preferences[IP]?:"192.168.10.1"
+    }
 
+
+    suspend fun saveIp(ip:String){
+        dataStore.edit { preferences->
+            preferences[IP]=ip
+        }
+    }
     suspend fun setIsLogin(flag:Boolean){
         dataStore.edit { preferences->
             preferences[IS_LOGIN]=flag
@@ -38,6 +47,7 @@ class DataStoreHelper(
     companion object {
         const val DATA_STORE_NAME="barcode_scanner_datastore"
         val IS_LOGIN= preferencesKey<Boolean>(name = "is login")
+        val IP= preferencesKey<String>(name = "ip")
     }
 
 }

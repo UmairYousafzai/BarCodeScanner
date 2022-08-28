@@ -16,4 +16,6 @@
     <string name="connected_wifi">Connected WIFI:</string>
     <string name="cancel">Cancel</string>
     <string name="save">Save</string>
+    <string name="configure_ip">Configure IP</string>
+    <string name="enter_ip_address">Enter Ip Address</string>
 </resources>

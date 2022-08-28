@@ -60,6 +60,7 @@ abstract class BaseFragment <T: ViewBinding>:Fragment() {
         with(generalViewModel) {
             dialogMessage.observe(viewLifecycleOwner) {
 //               showAlertDialog(it)
+
                 showToast(it)
             }
             toastMessage.observe(viewLifecycleOwner){

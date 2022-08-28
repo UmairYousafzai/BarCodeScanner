@@ -13,20 +13,24 @@ class LoginViewModel : BaseViewModel() {
     val loginResponseMutableLiveData = MutableLiveData<User>()
     val userNameErrorMutableLiveData = MutableLiveData<String>()
     val passwordErrorMutableLiveData = MutableLiveData<String>()
+    val btnActionMutableLiveData = MutableLiveData<Boolean>()
 
-    fun onClick() {
+    fun onClick(key: Int) {
 
-        loginUser()
+        if (key == 2) {
+            btnActionMutableLiveData.value=true
+        } else {
+            loginUser()
+        }
     }
 
-     private fun loginUser() {
+    private fun loginUser() {
         val username: String? = userNameMutableLiveData.value?.trim()
         val password: String? = passwordMutableLiveData.value?.trim()
-         if (username.equals("softvalley") && password.equals("Soft1234"))
-         {
-             loginResponseMutableLiveData.value= User(UserName = "Admin", BusinessName = "Admin")
-             return
-         }
+        if (username.equals("softvalley") && password.equals("Soft1234")) {
+            loginResponseMutableLiveData.value = User(UserName = "Admin", BusinessName = "Admin")
+            return
+        }
         if (!username.isNullOrBlank()) {
             if (!password.isNullOrBlank()) {
                 viewModelScope.launch {
@@ -34,19 +38,16 @@ class LoginViewModel : BaseViewModel() {
                     repository.login(username, password).let { response ->
                         showProgressBar(false)
                         when (response) {
-                            is ResultWrapper.Success ->
-                            {
+                            is ResultWrapper.Success -> {
                                 if (response.value.Code == 200)
                                     loginResponseMutableLiveData.value = response.value.Data
                                 else {
-                                userNameErrorMutableLiveData.value = response.value.Message
-                                passwordErrorMutableLiveData.value = response.value.Message
-                            }
+                                    userNameErrorMutableLiveData.value = response.value.Message
+                                    passwordErrorMutableLiveData.value = response.value.Message
+                                }
                                 showToastMessage(response.value.Message)
 
                             }
-
-
 
 
                             else -> handleErrorType(response)
